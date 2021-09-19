@@ -1,0 +1,26 @@
+query user($id: String!) {
+  user(__id: $id) {
+    id
+    __id
+    name
+    username
+    avatar
+    phone
+    email
+    verified
+    bio
+    created_at
+    reviews {
+      id
+      rating
+      review
+      business {
+        id
+        __id
+        business_name
+        address
+        header_image
+      }
+    }
+  }
+}
