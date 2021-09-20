@@ -1,0 +1,22 @@
+query my_businesses($user_id: String!) {
+  my_businesses(__id: $user_id) {
+    businesses {
+      business_name
+      address
+      city
+      state
+      header_image
+      reviewCount
+      ratingAvg
+      category {
+        category
+      }
+      reviews {
+        created_at
+        rating
+        review
+        voteCount
+      }
+    }
+  }
+}

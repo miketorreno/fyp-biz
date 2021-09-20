@@ -1,0 +1,37 @@
+query {
+  businesses {
+    id
+    __id
+    business_name
+    address
+    city
+    state
+    postal_code
+    latitude
+    longitude
+    location
+    geohash
+    telephone_number
+    email
+    website
+    image_url
+    header_image
+    is_open
+    verified
+    claimed
+    reviewCount
+    ratingAvg
+    category {
+      id
+      __id
+      category
+    }
+    reviews {
+      id
+      __id
+      rating
+      review
+      voteCount
+    }
+  }
+}

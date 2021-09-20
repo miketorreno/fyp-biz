@@ -11,7 +11,39 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    meta: { layout: AppLayout },
+    meta: { requiresAuth: true, layout: AppLayout },
+  },
+  {
+    path: "/businesses",
+    name: "Businesses",
+    component: () =>
+      import(
+        /* webpackChunkName: "businesses" */ "../views/business/Businesses.vue"
+      ),
+    meta: { requiresAuth: true, layout: AppLayout },
+  },
+  {
+    path: "/business/:id",
+    name: "Business",
+    // route level code-splitting
+    // this generates a separate chunk (business.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(
+        /* webpackChunkName: "business" */ "../views/business/Business.vue"
+      ),
+    meta: { requiresAuth: true, layout: AppLayout },
+  },
+  {
+    path: "/search/:query",
+    name: "Search",
+    // route level code-splitting
+    // this generates a separate chunk (search.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "search" */ "../views/business/Search.vue"),
+    meta: { requiresAuth: true, layout: AppLayout },
+    props: true,
   },
   {
     path: "/about",
@@ -49,7 +81,7 @@ const routes = [
     name: "NotFound",
     component: () =>
       import(/* webpackChunkName: "NotFound" */ "../views/NotFound.vue"),
-    meta: { layout: AppLayout },
+    meta: { requiresAuth: true, layout: AppLayout },
   },
 ];
 

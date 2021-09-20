@@ -65,10 +65,12 @@
         v-model="valid"
         lazy-validation
         class="search"
-        style="width:100%"
+        style="width:70%"
       >
         <div class="d-flex">
-          <v-autocomplete
+          <v-text-field
+            v-model="query"
+            :rules="[(v) => !!v || 'This is required']"
             hide-details
             light
             solo
@@ -76,29 +78,10 @@
             prepend-inner-icon="mdi-magnify"
             flat
             single-line
-            placeholder="Find"
             clearable
-            v-model="categoryValue"
-            :items="categories"
-            item-text="category"
-            item-value="id"
-            :rules="[(v) => !!v || 'This is required']"
-            style="border-right: 2px solid #777;"
-          ></v-autocomplete>
-          <v-autocomplete
-            hide-details
-            light
-            solo
-            denses
-            prepend-inner-icon="mdi-map-marker"
-            flat
-            single-line
-            placeholder="Near"
-            clearable
-            v-model="placeValue"
-            :items="places"
-            :rules="[(v) => !!v || 'This is required']"
-          ></v-autocomplete>
+            label="Search by name, location..."
+            required
+          ></v-text-field>
           <v-btn
             large
             tile
@@ -114,23 +97,7 @@
         </div>
       </v-form>
 
-      <!-- <v-text-field
-        hide-details
-        light
-        solo
-        rounded
-        dense
-        prepend-inner-icon="mdi-search-web"
-        flat
-        single-line
-        placeholder="Search here"
-      ></v-text-field> -->
-
       <v-spacer class="d-none d-md-flex"></v-spacer>
-
-      <!-- <v-avatar size="42">
-        <img src="@/assets/img/john.jpg" alt="John" />
-      </v-avatar> -->
 
       <v-menu v-model="showMenu">
         <template v-slot:activator="{ on, attrs }">
@@ -162,60 +129,6 @@
     </v-app-bar>
 
     <v-main class="mt-1">
-      <!-- <v-card>
-        <v-tabs show-arrows>
-          <v-tabs-slider></v-tabs-slider>
-
-          <v-chip class="ma-2" outlined>
-            <v-icon>
-              mdi-filter
-            </v-icon>
-          </v-chip>
-
-          <v-chip class="ma-2" outlined>
-            <v-icon left>
-              mdi-silverware-fork-knife
-            </v-icon>
-            Restaurants
-          </v-chip>
-
-          <v-chip class="ma-2" outlined>
-            <v-icon left>
-              mdi-gas-station
-            </v-icon>
-            Gas
-          </v-chip>
-
-          <v-chip class="ma-2" outlined>
-            <v-icon left>
-              mdi-cart
-            </v-icon>
-            Groceries
-          </v-chip>
-
-          <v-chip class="ma-2" outlined>
-            <v-icon left>
-              mdi-bed
-            </v-icon>
-            Hotels
-          </v-chip>
-
-          <v-chip class="ma-2" outlined>
-            <v-icon left>
-              mdi-bed
-            </v-icon>
-            Hotels
-          </v-chip>
-
-          <v-chip class="ma-2" outlined>
-            <v-icon left>
-              mdi-bed
-            </v-icon>
-            Hotels
-          </v-chip>
-        </v-tabs>
-      </v-card> -->
-
       <v-container fluid>
         <slot></slot>
       </v-container>
@@ -228,22 +141,10 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:8000";
 
-import gql from "graphql-tag";
+// import gql from "graphql-tag";
 
 export default {
   name: "AppLayout",
-  apollo: {
-    categories: gql`
-      query {
-        categories {
-          id
-          parent_id
-          __id
-          category
-        }
-      }
-    `,
-  },
   data: () => ({
     drawer: null,
     token: localStorage.getItem("fyptoken"),
@@ -253,9 +154,19 @@ export default {
     errors: null,
     items: [
       {
+        text: "Dashboard",
+        icon: "mdi-view-dashboard-outline",
+        link: "/",
+      },
+      {
         text: "Add a Business",
-        icon: "mdi-office-building-outline",
+        icon: "mdi-bank-plus",
         link: "/addabusiness",
+      },
+      {
+        text: "Businesses",
+        icon: "mdi-office-building-outline",
+        link: "/businesses",
       },
       {
         text: "Notifications",
@@ -270,11 +181,7 @@ export default {
       { text: "Settings", icon: "mdi-cog-outline", link: "/settings" },
     ],
     valid: true,
-    categoryValue: null,
-    placeValue: null,
-    // searchCategories: ["Loading..."],
-    categories: [],
-    places: ["Addis Ababa", "Adama", "Bishoftu"],
+    query: "",
   }),
   methods: {
     logout() {
@@ -287,7 +194,7 @@ export default {
           localStorage.removeItem("fyptoken");
           localStorage.removeItem("pidtoken");
           this.token = null;
-          this.$router.push({ name: "Home" });
+          this.$router.push({ name: "Login" });
         })
         .catch((errors) => {
           if (errors.response.data.exception) {
@@ -301,7 +208,7 @@ export default {
       if (this.$refs.search.validate()) {
         this.$router.push({
           name: "Search",
-          params: { business: this.categoryValue, location: this.placeValue },
+          params: { query: this.query },
         });
       }
     },

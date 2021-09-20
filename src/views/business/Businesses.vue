@@ -1,31 +1,14 @@
 <template>
-  <div class="home">
-    <ApolloQuery
-      :query="require('@/graphql/queries/business/MyBusinesses.gql')"
-      :variables="{ user_id: user_id }"
-    >
+  <div class="businesses">
+    <h3 class="ma-2 mt-5">Local Businesses</h3>
+    <ApolloQuery :query="require('@/graphql/queries/business/Businesses.gql')">
       <template v-slot="{ result: { loading, error, data } }">
         <div v-if="loading" class="loading apollo">Loading...</div>
         <div v-else-if="error" class="error apollo">An error occurred</div>
         <div v-else-if="data" class="result apollo">
-          <v-row
-            v-if="!data.my_businesses.businesses[0]"
-            class="pa-2 mt-5"
-            justify="center"
-          >
-            <h5 class="text-h6 text-center pa-4">
-              No business found.
-              <br />
-              Find & Claim your business or
-              <v-btn plain :to="{ path: '/addabusiness' }" color="primary"
-                >add</v-btn
-              >
-              it here.
-            </h5>
-          </v-row>
-          <v-row v-else class="pa-2">
+          <v-row class="pa-2">
             <v-col
-              v-for="b in data.my_businesses.businesses"
+              v-for="b in data.businesses"
               :key="b.__id"
               xs="12"
               sm="6"
@@ -73,6 +56,10 @@
                   <div class="mt-4 text-subtitle-1 text-truncate">
                     {{ b.address }}
                   </div>
+
+                  <!-- <div class="text-subtitle-1">
+                    $ • Italian, Cafe • 1.8mi
+                  </div> -->
                 </v-card-text>
 
                 <v-divider class="mx-4"></v-divider>
@@ -80,18 +67,45 @@
             </v-col>
           </v-row>
         </div>
-        <div v-else class="no-result apollo">
-          No result :(
-        </div>
+        <div v-else class="no-result apollo">No result :(</div>
       </template>
     </ApolloQuery>
+    <div class="my-5 text-center">
+      <v-btn text>
+        More
+      </v-btn>
+    </div>
+
+    <h3 class="ma-2 mt-5">Near by</h3>
+    <v-row>
+      <v-col xs="12" sm="6" md="4" lg="3" xl="2">
+        ...near by businesses
+      </v-col>
+    </v-row>
+    <div class="my-5 text-center">
+      <v-btn text>
+        More
+      </v-btn>
+    </div>
+
+    <h3 class="ma-2 mt-5">Popular</h3>
+    <v-row>
+      <v-col xs="12" sm="6" md="4" lg="3" xl="2">
+        ...popular businesses
+      </v-col>
+    </v-row>
+    <div class="my-5 text-center">
+      <v-btn text>
+        More
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: "Businesses",
   data: () => ({
-    user_id: localStorage.getItem("pidtoken"),
     loading: false,
     selection: 1,
     items: [
