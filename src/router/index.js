@@ -35,6 +35,18 @@ const routes = [
     meta: { requiresAuth: true, layout: AppLayout },
   },
   {
+    path: "/mybusiness/:id",
+    name: "MyBusiness",
+    // route level code-splitting
+    // this generates a separate chunk (business.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(
+        /* webpackChunkName: "business" */ "../views/business/MyBusiness.vue"
+      ),
+    meta: { requiresAuth: true, layout: AppLayout },
+  },
+  {
     path: "/search/:query",
     name: "Search",
     // route level code-splitting

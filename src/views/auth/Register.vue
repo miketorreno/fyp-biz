@@ -146,7 +146,7 @@ export default {
     error: "",
     fyptoken: "",
 
-    avatar: "user.jpg",
+    avatar: "http://localhost:8000/storage/profile/user.jpg",
     name: "",
     email: "",
     password: "",

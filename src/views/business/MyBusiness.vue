@@ -66,6 +66,9 @@
               color="basil"
               grow
             >
+              <v-tab href="#about">
+                About
+              </v-tab>
               <v-tab href="#overview">
                 Overveiw
               </v-tab>
@@ -74,9 +77,6 @@
               </v-tab>
               <v-tab href="#photos">
                 Photos
-              </v-tab>
-              <v-tab href="#about">
-                About
               </v-tab>
             </v-tabs>
 
