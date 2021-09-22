@@ -44,11 +44,6 @@
                   Claimed
                   <span class="mx-2">&bull;</span>
                 </span>
-                <span v-else class="mr-2">
-                  <v-btn small dark>
-                    Claim
-                  </v-btn>
-                </span>
 
                 {{ data.business.category.category }}
 
@@ -69,8 +64,8 @@
               <v-tab href="#about">
                 About
               </v-tab>
-              <v-tab href="#overview">
-                Overveiw
+              <v-tab href="#map">
+                Map
               </v-tab>
               <v-tab href="#reviews">
                 Reviews
@@ -81,39 +76,172 @@
             </v-tabs>
 
             <v-tabs-items v-model="tab">
-              <v-tab-item value="overview">
+              <v-tab-item value="about">
+                <v-card color="basil" text>
+                  <v-card-text v-if="!editA">
+                    <v-btn dark class="float-right" @click="editAbout"
+                      >Edit</v-btn
+                    >
+                    <!-- <p ref="id" class="d-none">{{ data.user.id }}</p> -->
+                    <p ref="id" class="d-none">{{ data.business.id }}</p>
+                    <p ref="cid" class="d-none">
+                      {{ data.business.category.id }}
+                    </p>
+                    <p ref="name" class="d-none">
+                      {{ data.business.business_name }}
+                    </p>
+                    <p class="">
+                      <v-icon left>mdi-file-tree-outline</v-icon>
+                      <span ref="category">{{
+                        data.business.category.category
+                      }}</span>
+                    </p>
+                    <p class="">
+                      <v-icon left>mdi-road-variant</v-icon>
+                      <span ref="address">{{ data.business.address }}</span>
+                    </p>
+                    <p class="">
+                      <v-icon left>mdi-map-marker-outline</v-icon>
+                      <span ref="city">{{ data.business.city }}</span>
+                    </p>
+                    <p class="">
+                      <v-icon left>mdi-map-marker-circle</v-icon>
+                      <span ref="state">{{ data.business.state }}</span>
+                    </p>
+                    <p class="">
+                      <v-icon left>mdi-map</v-icon>
+                      <span ref="lat">{{ data.business.latitude }}</span
+                      >,
+                      <span ref="lng">{{ data.business.longitude }}</span>
+                    </p>
+                    <p class="">
+                      <v-icon left>mdi-clock-time-four-outline</v-icon>
+                      <span ref="hours">Hours Placeholder</span>
+                    </p>
+                    <!-- <p class="">
+                      <v-icon left>mdi-silverware</v-icon>
+                      Menu
+                    </p> -->
+                    <p class="">
+                      <v-icon left>mdi-phone-outline</v-icon>
+                      <span ref="phone">{{
+                        data.business.telephone_number || "N/A"
+                      }}</span>
+                    </p>
+                    <p class="">
+                      <v-icon left>mdi-abacus</v-icon>
+                      <span ref="email">{{
+                        data.business.email || "N/A"
+                      }}</span>
+                    </p>
+                    <p class="">
+                      <v-icon left>mdi-at</v-icon>
+                      <span ref="website">{{
+                        data.business.website || "N/A"
+                      }}</span>
+                    </p>
+                  </v-card-text>
+                  <v-card-text v-else>
+                    <h2 class="mt-5">Edit Basic Information</h2>
+                    <v-row class="mt-2">
+                      <v-col cols="12" md="6">
+                        <v-form
+                          ref="editaboutform"
+                          v-model="valid"
+                          lazy-validation
+                        >
+                          <v-text-field
+                            v-model="name"
+                            :rules="businessNameRules"
+                            label="Business Name"
+                            required
+                          ></v-text-field>
+
+                          <v-text-field
+                            v-model="address"
+                            :rules="addressRules"
+                            label="Address"
+                            required
+                          ></v-text-field>
+
+                          <v-text-field
+                            v-model="city"
+                            :rules="cityRules"
+                            label="City"
+                            required
+                          ></v-text-field>
+
+                          <v-text-field
+                            v-model="state"
+                            :rules="stateRules"
+                            label="State"
+                            required
+                          ></v-text-field>
+
+                          <v-text-field
+                            v-model="lat"
+                            :rules="latRules"
+                            label="Latitude"
+                          ></v-text-field>
+
+                          <v-text-field
+                            v-model="lng"
+                            :rules="lngRules"
+                            label="Longitude"
+                          ></v-text-field>
+
+                          <v-select
+                            v-model="category"
+                            :items="categories"
+                            item-text="category"
+                            item-value="id"
+                            label="Category"
+                          ></v-select>
+
+                          <v-text-field
+                            v-model="website"
+                            :rules="websiteRules"
+                            label="Website"
+                          ></v-text-field>
+
+                          <v-text-field
+                            v-model="phone"
+                            :rules="phoneRules"
+                            label="Phone"
+                          ></v-text-field>
+
+                          <v-text-field
+                            v-model="email"
+                            :rules="emailRules"
+                            label="E-mail"
+                          ></v-text-field>
+
+                          <v-btn
+                            :disabled="!validA"
+                            color="primary"
+                            class="mr-4"
+                            @click="validateAbout"
+                          >
+                            Update
+                          </v-btn>
+
+                          <v-btn class="mr-4" @click="resetAbout">
+                            Cancel
+                          </v-btn>
+                        </v-form>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+              </v-tab-item>
+              <v-tab-item value="map">
                 <v-card color="basil" text>
                   <v-card-text>
-                    <div class="mb-4">
-                      <span class="mr-5">
-                        <v-icon color="success">mdi-check</v-icon>
-                        Takeaway
-                      </span>
-                      <span class="mr-5">
-                        <v-icon color="success">mdi-check</v-icon>
-                        Dining
-                      </span>
-                    </div>
-                    <hr />
-                    <div class="mt-4">
-                      <p class="">
-                        <v-icon left>mdi-abacus</v-icon>
-                        {{ data.business.address }}
-                      </p>
-                      <p class="">
-                        <v-icon left>mdi-map-marker-outline</v-icon>
-                        {{ data.business.city }}
-                      </p>
-                      <p class="">
-                        <v-icon left>mdi-clock-time-four-outline</v-icon>
-                        Hours Placeholder
-                      </p>
-                    </div>
                     <div class="mt-44">
                       <GmapMap
                         :center="mapCenter(data.business)"
                         :zoom="15"
-                        style="width: 100%; height: 300px"
+                        style="width: 100%; height: 500px"
                         ref="mapRef"
                         @dragend="handleDrag"
                       >
@@ -142,87 +270,6 @@
                         />
                       </GmapMap>
                     </div>
-                    <hr />
-                    <v-row class="mt-4">
-                      <v-col xs="12" sm="12" md="10" lg="8" xl="8">
-                        <!-- <h4>Rate and review</h4>
-                        <p>Share your experience to help others</p>
-                        <v-form class="mb-6">
-                          <v-container>
-                            <v-row>
-                              <v-col cols="12" md="10">
-                                <v-rating
-                                  background-color="amber lighten-3"
-                                  color="amber"
-                                ></v-rating>
-
-                                <v-textarea
-                                  clearable
-                                  clear-icon="mdi-close-circle"
-                                  placeholder="Share details of your own experience at this place"
-                                  rows="2"
-                                ></v-textarea>
-
-                                <div class="text-right">
-                                  <v-btn small color="" class="mr-4" @click="reset">
-                                    Cancel
-                                  </v-btn>
-
-                                  <v-btn small color="primary">
-                                    Submit
-                                  </v-btn>
-                                </div>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-form> -->
-                        <v-list
-                          two-line
-                          subheader
-                          v-for="r in data.business.reviews"
-                          :key="r.__id"
-                        >
-                          <hr />
-                          <v-list-item>
-                            <v-list-item-avatar>
-                              <v-img :src="r.user.avatar"></v-img>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                              <v-list-item-title>
-                                {{ r.user.name }}
-                              </v-list-item-title>
-                              <v-list-item-subtitle>
-                                additional info
-                              </v-list-item-subtitle>
-                            </v-list-item-content>
-                          </v-list-item>
-                          <div class="mx-4">
-                            <v-row class="px-2 py-4">
-                              <v-rating
-                                :value="r.rating"
-                                color="amber"
-                                dense
-                                half-increments
-                                readonly
-                                size="14"
-                              ></v-rating>
-
-                              <div class="grey--text ms-4">
-                                {{ r.created_at }}
-                              </div>
-                            </v-row>
-                            <p>{{ r.review }}</p>
-                            <v-btn-toggle
-                              v-model="text"
-                              tile
-                              color="deep-purple accent-3"
-                              group
-                            >
-                            </v-btn-toggle>
-                          </div>
-                        </v-list>
-                      </v-col>
-                    </v-row>
                   </v-card-text>
                 </v-card>
               </v-tab-item>
@@ -231,60 +278,6 @@
                   <v-card-text>
                     <v-row>
                       <v-col xs="12" sm="12" md="10" lg="8" xl="8">
-                        <h4>Rate and review</h4>
-                        <p>Share your experience to help others</p>
-                        <v-form
-                          ref="review"
-                          v-model="valid"
-                          lazy-validation
-                          class="mb-6"
-                        >
-                          <v-container>
-                            <v-row>
-                              <v-col cols="12" md="10">
-                                <v-rating
-                                  v-model="rating"
-                                  background-color="amber lighten-3"
-                                  color="amber"
-                                ></v-rating>
-
-                                <v-textarea
-                                  v-model="review"
-                                  clearable
-                                  clear-icon="mdi-close-circle"
-                                  placeholder="Share details of your own experience at this place"
-                                  rows="2"
-                                ></v-textarea>
-
-                                <input
-                                  type="hidden"
-                                  :value="data.business.id"
-                                  ref="business"
-                                />
-
-                                <div class="text-right">
-                                  <v-btn
-                                    small
-                                    color=""
-                                    class="mr-4"
-                                    @click="reset"
-                                  >
-                                    Cancel
-                                  </v-btn>
-
-                                  <v-btn
-                                    :disabled="!valid"
-                                    @click="validate"
-                                    small
-                                    color="primary"
-                                  >
-                                    Submit
-                                  </v-btn>
-                                </div>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-form>
                         <v-list
                           two-line
                           subheader
@@ -321,33 +314,6 @@
                               </div>
                             </v-row>
                             <p>{{ r.review }}</p>
-                            <!-- <v-btn-toggle
-                              v-model="text"
-                              tile
-                              color="deep-purple accent-3"
-                              group
-                            > -->
-                            <v-btn small @click="vote(r.id, 1)" class="mr-3">
-                              <v-icon left>mdi-thumb-up-outline</v-icon>
-                              helpful
-                            </v-btn>
-                            <span class="subtitle-1 mr-5 mt-4">{{
-                              r.voteCount
-                            }}</span>
-
-                            <!-- <v-btn
-                              small
-                              outlined
-                              @click="vote(r.id, 0)"
-                              class="mr-1"
-                            >
-                              <v-icon left>mdi-thumb-down-outline</v-icon>
-                              {{ r.voteCount }}
-                            </v-btn> -->
-                            <!-- <span class="subtitle-1 mr-4">{{
-                              r.voteCount
-                            }}</span> -->
-                            <!-- </v-btn-toggle> -->
                           </div>
                         </v-list>
                       </v-col>
@@ -397,46 +363,6 @@
                   </v-card-text>
                 </v-card>
               </v-tab-item>
-              <v-tab-item value="about">
-                <v-card color="basil" text>
-                  <v-card-text>
-                    <p class="">
-                      <v-icon left>mdi-abacus</v-icon>
-                      {{ data.business.address }}
-                    </p>
-                    <p class="">
-                      <v-icon left>mdi-map-marker-outline</v-icon>
-                      {{ data.business.city }}
-                    </p>
-                    <p class="">
-                      <v-icon left>mdi-clock-time-four-outline</v-icon>
-                      Hours Placeholder
-                    </p>
-                    <p class="">
-                      <v-icon left>mdi-silverware</v-icon>
-                      Menu
-                    </p>
-                    <p class="">
-                      <v-icon left>mdi-map-marker-outline</v-icon>
-                      {{ data.business.city }}
-                    </p>
-                    <p class="">
-                      <v-icon left>mdi-phone-outline</v-icon>
-                      {{ data.business.telephone_number }} Phone Placeholder
-                    </p>
-                    <p class="">
-                      <v-icon left>mdi-abacus</v-icon>
-                      {{ data.business.email }} Email Placeholder
-                    </p>
-                    <p class="">
-                      <v-icon left>mdi-shield-check-outline</v-icon>
-                      <v-btn small text depressed>
-                        Claim
-                      </v-btn>
-                    </p>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
             </v-tabs-items>
           </v-card>
         </div>
@@ -453,7 +379,22 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:8000";
 
+import gql from "graphql-tag";
+
 export default {
+  name: "MyBusiness",
+  apollo: {
+    categories: gql`
+      query {
+        categories {
+          id
+          parent_id
+          __id
+          category
+        }
+      }
+    `,
+  },
   data() {
     return {
       id: this.$route.params.id,
@@ -475,10 +416,51 @@ export default {
           height: -35,
         },
       },
+      categories: [],
       valid: true,
       rating: 0,
       review: "",
       userId: null,
+      bid: "",
+      name: "",
+      businessNameRules: [
+        (v) => !!v || "Business name is required",
+        (v) => (v && v.length < 150) || "Enter a valid business name",
+      ],
+      address: "",
+      addressRules: [
+        (v) => !!v || "Address is required",
+        (v) => v.length < 50 || "Enter a valid address",
+      ],
+      city: "",
+      cityRules: [
+        (v) => !!v || "City name is required",
+        (v) => v.length < 50 || "Enter a valid city name",
+      ],
+      state: "",
+      stateRules: [
+        (v) => !!v || "state is required",
+        (v) => v.length < 25 || "Enter a valid state",
+      ],
+      lat: null,
+      latRules: [
+        (v) => !!v || "Latitude is required",
+        // (v) => (v.value >= -90 && v.value <= 90) || "Latitudes range is from -90 to 90",
+      ],
+      lng: null,
+      lngRules: [
+        (v) => !!v || "Longitude is required",
+        // (v) => (v.value >= -180 && v.value <= 180) || "longitudes range is from -180 to 180",
+      ],
+      category: null,
+      phone: null,
+      phoneRules: [(v) => v.length < 15 || "Phone number must be valid"],
+      email: "",
+      emailRules: [(v) => /.+@.+\..+/.test(v) || "E-mail must be valid"],
+      website: "",
+      websiteRules: [(v) => v.length < 40 || "Website must be valid"],
+      editA: false,
+      validA: true,
     };
   },
   methods: {
@@ -530,115 +512,73 @@ export default {
       localStorage.center = JSON.stringify(center);
       localStorage.zoom = zoom;
     },
-    reset() {
-      this.rating = 0;
-      this.$refs.review.reset();
-    },
-    validate() {
-      if (this.$refs.review.validate()) {
-        if (localStorage.getItem("fyptoken")) {
-          axios
-            .get("/api/user")
-            .then((response) => {
-              if (response.status && response.status == 200) {
-                this.userId = response.data.id;
-                this.submitReview();
+    validateAbout() {
+      if (this.$refs.editaboutform.validate()) {
+        axios({
+          url: "/graphql",
+          method: "post",
+          data: {
+            query: `
+              mutation updateBusiness($id: ID!, $category_id: Int, $business_name: String!, $address: String!, $city: String!, $state: String, $latitude: Float!, $longitude: Float!, $phone: String, $email: String, $website: String) {
+                updateBusiness(id: $id, category_id: $category_id, business_name: $business_name, address: $address, city: $city, state: $state, latitude: $latitude, longitude: $longitude, telephone_number: $phone, email: $email, website: $website) {
+                  id
+                  __id
+                  business_name
+                }
               }
-            })
-            .catch((errors) => {
-              if (errors.response.status == 401) {
-                localStorage.removeItem("fyptoken");
-                this.$router.push({ name: "Login" });
-              }
-              if (errors.response.data.exception) {
-                // this.exception = errors.response.data.message;
-                console.log(errors.response.data.message);
-              }
-              // this.errors = errors.response.data.errors;
-              console.log(errors.response.data.errors);
-            });
-        } else {
-          this.$router.push({ name: "Login" });
-        }
-        // console.log(this.$refs.business.value, this.rating, this.review);
+            `,
+            variables: {
+              id: this.bid,
+              category_id: parseInt(this.category),
+              business_name: this.name,
+              address: this.address,
+              city: this.city,
+              state: this.state,
+              latitude: this.lat,
+              longitude: this.lng,
+              email: this.email,
+              website: this.website,
+              phone: this.phone,
+            },
+          },
+        }).then((result) => {
+          console.log(result.data);
+          this.$router.go();
+        });
       }
     },
-    submitReview() {
-      axios({
-        url: "/graphql",
-        method: "post",
-        data: {
-          query: `
-            mutation createReview($businessId: Int!, $userId: Int!, $rating: Int!, $review: String!) {
-              createReview(business_id: $businessId, user_id: $userId, rating: $rating, review: $review) {
-                id
-                __id
-                rating
-                review
-              }
-            }
-          `,
-          variables: {
-            businessId: parseInt(this.$refs.business.value),
-            userId: parseInt(this.userId),
-            rating: parseInt(this.rating),
-            review: this.review,
-          },
-        },
-      }).then((result) => {
-        console.log(result.data);
-        this.$router.go();
-      });
+    resetAbout() {
+      this.$refs.editaboutform.reset();
+      this.editA = false;
     },
-    vote(r, v) {
-      if (localStorage.getItem("fyptoken")) {
-        axios
-          .get("/api/user")
-          .then((response) => {
-            if (response.status && response.status == 200) {
-              this.userId = response.data.id;
-              this.submitVote(r, v);
-            }
-          })
-          .catch((errors) => {
-            if (errors.response.status == 401) {
-              localStorage.removeItem("fyptoken");
-              this.$router.push({ name: "Login" });
-            }
-            if (errors.response.data.exception) {
-              // this.exception = errors.response.data.message;
-              console.log(errors.response.data.message);
-            }
-            // this.errors = errors.response.data.errors;
-            console.log(errors.response.data.errors);
-          });
+    editAbout() {
+      this.bid = this.$refs.id.innerText;
+      // this.category = this.$refs.category.innerText;
+      this.name = this.$refs.name.innerText;
+      this.address = this.$refs.address.innerText;
+      this.city = this.$refs.city.innerText;
+      this.state = this.$refs.state.innerText;
+      this.lat = parseFloat(this.$refs.lat.innerText);
+      this.lng = parseFloat(this.$refs.lng.innerText);
+      if (!this.category) {
+        this.category = parseInt(this.$refs.cid.innerText);
+      }
+      if (this.$refs.email.innerText == "N/A") {
+        this.email = "";
       } else {
-        this.$router.push({ name: "Login" });
+        this.email = this.$refs.email.innerText;
       }
-      console.log(this.userId, r, v);
-    },
-    submitVote(r, v) {
-      axios({
-        url: "/graphql",
-        method: "post",
-        data: {
-          query: `
-            mutation createVote($reviewId: Int!, $userId: Int!, $vote: Int!) {
-              createVote(review_id: $reviewId, user_id: $userId, val: $vote) {
-                id
-                val
-              }
-            }
-          `,
-          variables: {
-            reviewId: parseInt(r),
-            userId: parseInt(this.userId),
-            vote: parseInt(v),
-          },
-        },
-      }).then((result) => {
-        console.log(result.data);
-      });
+      if (this.$refs.phone.innerText == "N/A") {
+        this.phone = "";
+      } else {
+        this.phone = this.$refs.phone.innerText;
+      }
+      if (this.$refs.website.innerText == "N/A") {
+        this.website = "";
+      } else {
+        this.website = this.$refs.website.innerText;
+      }
+      this.editA = true;
     },
   },
   computed: {

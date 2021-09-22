@@ -6,10 +6,13 @@ query my_businesses($user_id: String!) {
       address
       city
       state
+      latitude
+      longitude
       header_image
       reviewCount
       ratingAvg
       category {
+        id
         category
       }
       reviews {
