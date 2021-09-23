@@ -276,7 +276,28 @@
               <v-tab-item value="reviews">
                 <v-card color="basil" text>
                   <v-card-text>
-                    <v-row>
+                    <div>
+                      <!-- <v-col
+                        ><h3>Review count: {{ data.business.reviewCount }}</h3></v-col
+                      >
+                      <v-col
+                        ><h3>
+                          Average rating: {{ data.business.ratingAvg }}
+                        </h3></v-col
+                      > -->
+                      <h3 class="mb-3">
+                        Reviews Count: {{ data.business.reviewCount }}
+                      </h3>
+                      <h3 class="mb-3">
+                        Average Rating: {{ data.business.ratingAvg }}
+                      </h3>
+                    </div>
+                    <v-row v-if="!data.business.reviews[0]" justify="center">
+                      <h3 class="text-h6 my-3">
+                        No reviews yet
+                      </h3>
+                    </v-row>
+                    <v-row v-else>
                       <v-col xs="12" sm="12" md="10" lg="8" xl="8">
                         <v-list
                           two-line
@@ -325,9 +346,45 @@
                 <v-card color="basil" text>
                   <v-card-text>
                     <v-row>
+                      <v-col cols="12" md="10" lg="8" xl="8">
+                        <h2 class="mt-4 mb-2">
+                          Upload photos of your business
+                        </h2>
+                        <v-form
+                          ref="photoform"
+                          class="mb-4"
+                          @submit="uploadPhoto"
+                          enctype="multipart/form-data"
+                        >
+                          <v-file-input
+                            v-model="photo"
+                            accept="image/*"
+                            label="Attach photos"
+                            clearable
+                          ></v-file-input>
+                          <!-- <input
+                            type="hidden"
+                            name="business_id"
+                            :value="data.business.id"
+                            required
+                          /> -->
+                          <div class="text-right">
+                            <v-btn color="primary" @click="uploadPhoto">
+                              Upload
+                            </v-btn>
+                          </div>
+                        </v-form>
+                      </v-col>
+                    </v-row>
+                    <v-row v-if="!data.business.photos[0]" justify="center">
+                      <h3 class="text-h6 my-5">
+                        Uploaded photos will appear here
+                      </h3>
+                    </v-row>
+                    <v-row v-else>
                       <v-col
-                        v-for="n in 9"
-                        :key="n"
+                        v-for="p in data.business.photos"
+                        :key="p.__id"
                         class="d-flex child-flex"
                         cols="12"
                         sm="6"
@@ -336,12 +393,8 @@
                         xl="2"
                       >
                         <v-img
-                          :src="
-                            `https://picsum.photos/500/300?image=${n * 5 + 10}`
-                          "
-                          :lazy-src="
-                            `https://picsum.photos/10/6?image=${n * 5 + 10}`
-                          "
+                          :src="p.url"
+                          :lazy-src="p.url"
                           aspect-ratio="1"
                           class="grey lighten-2"
                         >
@@ -461,6 +514,7 @@ export default {
       websiteRules: [(v) => v.length < 40 || "Website must be valid"],
       editA: false,
       validA: true,
+      photo: null,
     };
   },
   methods: {
@@ -580,6 +634,61 @@ export default {
       }
       this.editA = true;
     },
+    resetPhoto() {
+      this.$refs.photoform.reset();
+      this.photo = null;
+    },
+    onChange(e) {
+      // this.photo = e.target.photos[0];
+      console.log(e.target);
+      console.log(this.photo);
+    },
+    uploadPhoto(e) {
+      e.preventDefault();
+      let existingObj = this;
+      this.bid = this.$refs.id.innerText;
+
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+
+      let data = new FormData();
+      data.append("bid", this.bid);
+      data.append("file", this.photo);
+
+      axios
+        .post("/upload", data, config)
+        .then(function(res) {
+          this.resetPhoto();
+          existingObj.success = res.data.success;
+        })
+        .catch(function(err) {
+          existingObj.output = err;
+        });
+    },
+    // uploadPhoto() {
+    // axios({
+    //   url: "/graphql",
+    //   method: "post",
+    //   data: {
+    //     query: `
+    //         mutation upload($photo: Upload!) {
+    //           upload(photo: $photo) {
+    //             id
+    //           }
+    //         }
+    //       `,
+    //     variables: {
+    //       photo: this.photo,
+    //     },
+    //   },
+    // }).then((result) => {
+    //   console.log(result.data);
+    //   // this.$router.go();
+    // });
+    // },
   },
   computed: {
     mapCoordinates() {

@@ -38,5 +38,9 @@ query business($id: String!) {
         avatar
       }
     }
+    photos {
+      __id
+      url
+    }
   }
 }
