@@ -378,7 +378,7 @@
                     </v-row>
                     <v-row v-if="!data.business.photos[0]" justify="center">
                       <h3 class="text-h6 my-5">
-                        Uploaded photos will appear here
+                        No photos
                       </h3>
                     </v-row>
                     <v-row v-else>

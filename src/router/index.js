@@ -14,6 +14,23 @@ const routes = [
     meta: { requiresAuth: true, layout: AppLayout },
   },
   {
+    path: "/addabusiness",
+    name: "AddBusiness",
+    component: () =>
+      import(
+        /* webpackChunkName: "addbusiness" */ "../views/business/AddBusiness.vue"
+      ),
+    meta: { requiresAuth: true, layout: AppLayout },
+  },
+  {
+    path: "/business/:id/verify",
+    name: "Verify",
+    component: () =>
+      import(/* webpackChunkName: "verify" */ "../views/business/Verify.vue"),
+    meta: { requiresAuth: true, layout: AppLayout },
+    props: true,
+  },
+  {
     path: "/businesses",
     name: "Businesses",
     component: () =>

@@ -45,10 +45,16 @@
                   <span class="mx-2">&bull;</span>
                 </span>
                 <span v-else class="mr-2">
-                  <v-btn small dark>
+                  <v-btn
+                    small
+                    dark
+                    :loading="claiming"
+                    @click="claim(data.business.id, data.business.__id)"
+                  >
                     Claim
                   </v-btn>
                 </span>
+                <span class="ml-2 mr-3">&bull;</span>
 
                 {{ data.business.category.category }}
 
@@ -430,7 +436,13 @@
                     </p>
                     <p class="">
                       <v-icon left>mdi-shield-check-outline</v-icon>
-                      <v-btn small text depressed>
+                      <v-btn
+                        small
+                        text
+                        depressed
+                        :loading="claiming"
+                        @click="claim(data.business.id, data.business.__id)"
+                      >
                         Claim
                       </v-btn>
                     </p>
@@ -478,7 +490,10 @@ export default {
       valid: true,
       rating: 0,
       review: "",
+      claiming: false,
       userId: null,
+      business_id: null,
+      issued_by: localStorage.getItem("pidtoken"),
     };
   },
   methods: {
@@ -519,11 +534,11 @@ export default {
         lat: this.map
           .getCenter()
           .lat()
-          .toFixed(7),
+          .toFixed(9),
         lng: this.map
           .getCenter()
           .lng()
-          .toFixed(7),
+          .toFixed(9),
       };
       let zoom = this.map.getZoom();
 
@@ -640,6 +655,76 @@ export default {
         console.log(result.data);
       });
     },
+    claim(bid, business) {
+      this.claiming = true;
+      if (localStorage.getItem("fyptoken")) {
+        axios
+          .get("/api/user")
+          .then((response) => {
+            if (response.status && response.status == 200) {
+              this.userId = response.data.id;
+              this.claimBusiness(bid, business);
+            }
+          })
+          .catch((errors) => {
+            if (errors.response.status == 401) {
+              localStorage.removeItem("fyptoken");
+              this.$router.push({ name: "Login" });
+            }
+            if (errors.response.data.exception) {
+              // this.exception = errors.response.data.message;
+              console.log(errors.response.data.message);
+            }
+            // this.errors = errors.response.data.errors;
+            console.log(errors.response.data.errors);
+          });
+      } else {
+        this.$router.push({ name: "Login" });
+      }
+    },
+    claimBusiness(bid, business) {
+      axios({
+        url: "/graphql",
+        method: "post",
+        data: {
+          query: `
+                mutation createBusinessVerification($business_id: Int!, $code: String!, $issued_by: String!) {
+                  createBusinessVerification(business_id: $business_id, code: $code, issued_by: $issued_by) {
+                    id
+                    business_id
+                    code
+                    issued_by
+                  }
+                }
+              `,
+          variables: {
+            business_id: parseInt(bid),
+            code: this.code(),
+            issued_by: this.issued_by,
+          },
+        },
+      })
+        .then((result) => {
+          this.loading = false;
+          this.$router.push({
+            name: "Verify",
+            params: {
+              id: business,
+              business: business,
+              bid: parseInt(bid),
+              code: result.data.data.createBusinessVerification.code,
+              issued_by: result.data.data.createBusinessVerification.issued_by,
+              verificationId: result.data.data.createBusinessVerification.id,
+            },
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    code() {
+      return "" + (Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111);
+    },
   },
   computed: {
     mapCoordinates() {
@@ -654,11 +739,11 @@ export default {
         lat: this.map
           .getCenter()
           .lat()
-          .toFixed(7),
+          .toFixed(9),
         lng: this.map
           .getCenter()
           .lng()
-          .toFixed(7),
+          .toFixed(9),
       };
     },
   },

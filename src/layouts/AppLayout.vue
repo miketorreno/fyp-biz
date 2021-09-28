@@ -79,7 +79,7 @@
             flat
             single-line
             clearable
-            label="Search by name, location..."
+            label="Find and claim your business"
             required
           ></v-text-field>
           <v-btn
