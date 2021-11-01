@@ -67,7 +67,7 @@
             </v-col>
           </v-row>
         </div>
-        <div v-else class="no-result apollo">No result :(</div>
+        <!-- <div v-else class="no-result apollo">No result :(</div> -->
       </template>
     </ApolloQuery>
     <div class="my-5 text-center">

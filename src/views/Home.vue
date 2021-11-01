@@ -80,9 +80,9 @@
             </v-col>
           </v-row>
         </div>
-        <div v-else class="no-result apollo">
+        <!-- <div v-else class="no-result apollo">
           No result :(
-        </div>
+        </div> -->
       </template>
     </ApolloQuery>
   </div>

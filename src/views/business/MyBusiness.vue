@@ -45,10 +45,10 @@
                   <span class="mx-2">&bull;</span>
                 </span>
 
-                {{ data.business.category.category }}
+                {{ data.business.business_category.category }}
 
                 <!-- <a href="" class="body-1 ml-1">
-                  {{ data.business.category.category }}
+                  {{ data.business.business_category.category }}
                 </a> -->
                 <!-- <span class="mx-1">&bull;</span>
                 <span class="body-1">1.8mi</span> -->
@@ -85,7 +85,7 @@
                     <!-- <p ref="id" class="d-none">{{ data.user.id }}</p> -->
                     <p ref="id" class="d-none">{{ data.business.id }}</p>
                     <p ref="cid" class="d-none">
-                      {{ data.business.category.id }}
+                      {{ data.business.business_category.id }}
                     </p>
                     <p ref="name" class="d-none">
                       {{ data.business.business_name }}
@@ -93,7 +93,7 @@
                     <p class="">
                       <v-icon left>mdi-file-tree-outline</v-icon>
                       <span ref="category">{{
-                        data.business.category.category
+                        data.business.business_category.category
                       }}</span>
                     </p>
                     <p class="">
@@ -114,10 +114,10 @@
                       >,
                       <span ref="lng">{{ data.business.longitude }}</span>
                     </p>
-                    <p class="">
+                    <!-- <p class="">
                       <v-icon left>mdi-clock-time-four-outline</v-icon>
                       <span ref="hours">Hours Placeholder</span>
-                    </p>
+                    </p> -->
                     <!-- <p class="">
                       <v-icon left>mdi-silverware</v-icon>
                       Menu
@@ -314,9 +314,9 @@
                               <v-list-item-title>
                                 {{ r.user.name }}
                               </v-list-item-title>
-                              <v-list-item-subtitle>
+                              <!-- <v-list-item-subtitle>
                                 additional info
-                              </v-list-item-subtitle>
+                              </v-list-item-subtitle> -->
                             </v-list-item-content>
                           </v-list-item>
                           <div class="mx-4">
@@ -421,7 +421,7 @@
         </div>
 
         <!-- No result -->
-        <div v-else class="no-result apollo">No result :(</div>
+        <!-- <div v-else class="no-result apollo">No result :(</div> -->
       </template>
     </ApolloQuery>
   </div>
@@ -573,8 +573,8 @@ export default {
           method: "post",
           data: {
             query: `
-              mutation updateBusiness($id: ID!, $category_id: Int, $business_name: String!, $address: String!, $city: String!, $state: String, $latitude: Float!, $longitude: Float!, $phone: String, $email: String, $website: String) {
-                updateBusiness(id: $id, category_id: $category_id, business_name: $business_name, address: $address, city: $city, state: $state, latitude: $latitude, longitude: $longitude, telephone_number: $phone, email: $email, website: $website) {
+              mutation updateBusiness($id: ID!, $business_category_id: Int, $business_name: String!, $address: String!, $city: String!, $state: String, $latitude: Float!, $longitude: Float!, $phone: String, $email: String, $website: String) {
+                updateBusiness(id: $id, business_category_id: $business_category_id, business_name: $business_name, address: $address, city: $city, state: $state, latitude: $latitude, longitude: $longitude, telephone_number: $phone, email: $email, website: $website) {
                   id
                   __id
                   business_name
@@ -583,7 +583,7 @@ export default {
             `,
             variables: {
               id: this.bid,
-              category_id: parseInt(this.category),
+              business_category_id: parseInt(this.category),
               business_name: this.name,
               address: this.address,
               city: this.city,
@@ -607,7 +607,7 @@ export default {
     },
     editAbout() {
       this.bid = this.$refs.id.innerText;
-      // this.category = this.$refs.category.innerText;
+      // this.category = this.$refs.business_category.innerText;
       this.name = this.$refs.name.innerText;
       this.address = this.$refs.address.innerText;
       this.city = this.$refs.city.innerText;
@@ -660,10 +660,17 @@ export default {
 
       axios
         .post("/upload", data, config)
-        .then(function(res) {
-          this.resetPhoto();
-          existingObj.success = res.data.success;
+        .then((res) => {
+          console.log(res);
+          this.$router.go();
         })
+        // .then(function(res) {
+        //   console.log(res);
+        //   this.$router.go();
+        //   console.log("res");
+        //   // this.resetPhoto();
+        //   // existingObj.success = res.data.success;
+        // })
         .catch(function(err) {
           existingObj.output = err;
         });

@@ -21,7 +21,7 @@ query {
     claimed
     reviewCount
     ratingAvg
-    category {
+    business_category {
       id
       __id
       category

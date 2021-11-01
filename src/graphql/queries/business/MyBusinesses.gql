@@ -11,7 +11,7 @@ query my_businesses($user_id: String!) {
       header_image
       reviewCount
       ratingAvg
-      category {
+      business_category {
         id
         category
       }

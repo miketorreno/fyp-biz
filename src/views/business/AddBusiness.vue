@@ -119,16 +119,6 @@
           </v-window-item>
 
           <v-window-item :value="6">
-            <v-card-text>
-              <div class="pa-5">
-                <h4 class="text-h4 pa-5">
-                  Business Hours Picker Goes Here...
-                </h4>
-              </div>
-            </v-card-text>
-          </v-window-item>
-
-          <v-window-item :value="7">
             <div class="pa-4 text-center">
               <h3 class="text-h6 mb-2">
                 Your Business Profile ready
@@ -147,11 +137,11 @@
             Back
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn :hidden="step === 7" color="primary" depressed @click="step++">
+          <v-btn :hidden="step === 6" color="primary" depressed @click="step++">
             Next
           </v-btn>
           <v-btn
-            v-if="step === 7"
+            v-if="step === 6"
             :disabled="!valid"
             :loading="loading"
             color="primary"
@@ -285,8 +275,8 @@ export default {
           method: "post",
           data: {
             query: `
-              mutation createBusiness($category_id: Int!, $business_name: String!, $address: String!, $city: String!, $state: String!, $latitude: Float!, $longitude: Float!, $phone: String!, $email: String, $website: String, $location: String!, $header: String!) {
-                createBusiness(category_id: $category_id, business_name: $business_name, address: $address, city: $city, state: $state, latitude: $latitude, longitude: $longitude, telephone_number: $phone, email: $email, website: $website, location: $location, header_image: $header) {
+              mutation createBusiness($business_category_id: Int!, $business_name: String!, $address: String!, $city: String!, $state: String!, $latitude: Float!, $longitude: Float!, $phone: String!, $email: String, $website: String, $location: String!, $header: String!) {
+                createBusiness(business_category_id: $business_category_id, business_name: $business_name, address: $address, city: $city, state: $state, latitude: $latitude, longitude: $longitude, telephone_number: $phone, email: $email, website: $website, location: $location, header_image: $header) {
                   id
                   __id
                   business_name
@@ -294,7 +284,7 @@ export default {
               }
             `,
             variables: {
-              category_id: parseInt(this.category),
+              business_category_id: parseInt(this.category),
               business_name: this.name,
               address: this.address,
               city: this.city,

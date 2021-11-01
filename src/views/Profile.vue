@@ -81,10 +81,10 @@
                   <v-card color="basil" text>
                     <v-card-text>
                       <p ref="id" class="d-none">{{ data.user.id }}</p>
-                      <p class="">
+                      <!-- <p class="">
                         <v-icon left>mdi-map-marker-outline</v-icon>
                         {{ data.user.__id }}
-                      </p>
+                      </p> -->
                       <p class="">
                         <v-icon left>mdi-calendar-account</v-icon>
                         {{ data.user.created_at }}
@@ -158,7 +158,7 @@
           </div>
 
           <!-- No result -->
-          <div v-else class="no-result apollo">No result :(</div>
+          <!-- <div v-else class="no-result apollo">No result :(</div> -->
         </template>
       </ApolloQuery>
     </div>

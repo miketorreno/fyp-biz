@@ -56,7 +56,7 @@
                 </span>
                 <span class="ml-2 mr-3">&bull;</span>
 
-                {{ data.business.category.category }}
+                {{ data.business.business_category.category }}
 
                 <!-- <a href="" class="body-1 ml-1">
                   {{ data.business.category.category }}
@@ -110,10 +110,10 @@
                         <v-icon left>mdi-map-marker-outline</v-icon>
                         {{ data.business.city }}
                       </p>
-                      <p class="">
+                      <!-- <p class="">
                         <v-icon left>mdi-clock-time-four-outline</v-icon>
                         Hours Placeholder
-                      </p>
+                      </p> -->
                     </div>
                     <div class="mt-44">
                       <GmapMap
@@ -197,9 +197,9 @@
                               <v-list-item-title>
                                 {{ r.user.name }}
                               </v-list-item-title>
-                              <v-list-item-subtitle>
+                              <!-- <v-list-item-subtitle>
                                 additional info
-                              </v-list-item-subtitle>
+                              </v-list-item-subtitle> -->
                             </v-list-item-content>
                           </v-list-item>
                           <div class="mx-4">
@@ -306,9 +306,9 @@
                               <v-list-item-title>
                                 {{ r.user.name }}
                               </v-list-item-title>
-                              <v-list-item-subtitle>
+                              <!-- <v-list-item-subtitle>
                                 additional info
-                              </v-list-item-subtitle>
+                              </v-list-item-subtitle> -->
                             </v-list-item-content>
                           </v-list-item>
                           <div class="mx-4">
@@ -414,14 +414,14 @@
                       <v-icon left>mdi-map-marker-outline</v-icon>
                       {{ data.business.city }}
                     </p>
-                    <p class="">
+                    <!-- <p class="">
                       <v-icon left>mdi-clock-time-four-outline</v-icon>
                       Hours Placeholder
-                    </p>
-                    <p class="">
+                    </p> -->
+                    <!-- <p class="">
                       <v-icon left>mdi-silverware</v-icon>
                       Menu
-                    </p>
+                    </p> -->
                     <p class="">
                       <v-icon left>mdi-map-marker-outline</v-icon>
                       {{ data.business.city }}
@@ -454,7 +454,7 @@
         </div>
 
         <!-- No result -->
-        <div v-else class="no-result apollo">No result :(</div>
+        <!-- <div v-else class="no-result apollo">No result :(</div> -->
       </template>
     </ApolloQuery>
   </div>

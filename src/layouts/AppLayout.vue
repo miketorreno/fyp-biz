@@ -4,7 +4,7 @@
       <v-navigation-drawer v-model="drawer" app>
         <div class="d-flex d-md-none">
           <v-list>
-            <v-list-item>
+            <v-list-item :to="{ path: `/profile/${pidtoken}` }">
               <v-list-item-avatar>
                 <v-img
                   src="http://localhost:8000/storage/profile/user.jpg"
@@ -12,19 +12,24 @@
               </v-list-item-avatar>
             </v-list-item>
 
-            <v-list-item link>
+            <!-- <v-list-item link>
               <v-list-item-content>
                 <v-list-item-title class="text-h6">
                   John Leider
                 </v-list-item-title>
                 <v-list-item-subtitle>john@vuetifyjs.com</v-list-item-subtitle>
               </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
+
+            <!-- <v-list-item :to="{ path: `/profile/${pidtoken}` }">
+              <v-list-item-title>Profile</v-list-item-title>
+            </v-list-item> -->
           </v-list>
         </div>
 
         <v-list class="d-none d-md-flex">
-          <v-list-item link :to="{ path: '/' }">
+          <!-- <v-list-item link :to="{ path: '/' }"> -->
+          <v-list-item link>
             <v-list-item-content>
               <v-list-item-title class="text-h6 text-center">
                 Bizz for Business
@@ -168,17 +173,17 @@ export default {
         icon: "mdi-office-building-outline",
         link: "/businesses",
       },
-      {
-        text: "Notifications",
-        icon: "mdi-bell-outline",
-        link: "/notifications",
-      },
-      {
-        text: "Activities",
-        icon: "mdi-chart-line-variant",
-        link: "/activities",
-      },
-      { text: "Settings", icon: "mdi-cog-outline", link: "/settings" },
+      // {
+      //   text: "Notifications",
+      //   icon: "mdi-bell-outline",
+      //   link: "/notifications",
+      // },
+      // {
+      //   text: "Activities",
+      //   icon: "mdi-chart-line-variant",
+      //   link: "/activities",
+      // },
+      // { text: "Settings", icon: "mdi-cog-outline", link: "/settings" },
     ],
     valid: true,
     query: "",
