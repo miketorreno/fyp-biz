@@ -8,7 +8,7 @@
         <!-- <h3 class="mb-3">See the business you’d like to review?</h3> -->
         <v-row v-if="!result[0]" class="pa-2 mt-5" justify="center">
           <h5 class="text-h6 text-center pa-4">
-            No result found.
+            No results found.
             <br />
             Refine your search and try agin or
             <v-btn plain :to="{ path: '/addabusiness' }" color="primary"
@@ -37,7 +37,7 @@
                   <v-list-item-subtitle>
                     <v-row class="pa-2">
                       <v-rating
-                        :value="4.5"
+                        :value="b.ratingAvg"
                         color="amber"
                         dense
                         half-increments
@@ -46,7 +46,7 @@
                       ></v-rating>
 
                       <div class="grey--text ms-4 subtitle-1">
-                        4.5 (413)
+                        {{ b.ratingAvg }} ({{ b.reviewCount }})
                       </div>
                     </v-row>
                   </v-list-item-subtitle>
@@ -72,6 +72,8 @@ export default {
   name: "Search",
   data: () => ({
     result: null,
+    resultCount: 0,
+    searching: false,
     query: "",
   }),
   watch: {
@@ -92,19 +94,24 @@ export default {
             query: `
             query {
               search(search: "${this.$route.params.query}") {
-                __id
-                business_name
-                address
-                header_image
-                category {
-                  id
+                data {
+                  __id
+                  business_name
+                  address
+                  header_image
+                  business_category {
+                    id
+                  }
+                  ratingAvg
+                  reviewCount
                 }
               }
             }
           `,
           },
         }).then((result) => {
-          this.result = result.data.data.search;
+          this.result = result.data.data.search.data;
+          // console.log(this.result);
           // if (this.result[0]) {
           //   console.log("results in ... sec");
           //   console.log(this.result[0]);

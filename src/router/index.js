@@ -98,6 +98,16 @@ const routes = [
     meta: { requiresGuest: true, layout: AuthLayout },
   },
   {
+    path: "/logout",
+    name: "Logout",
+    // route level code-splitting
+    // this generates a separate chunk (logout.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "logout" */ "../views/auth/Logout.vue"),
+    meta: { requiresAuth: true, layout: AppLayout },
+  },
+  {
     path: "/register",
     name: "Register",
     component: () =>
