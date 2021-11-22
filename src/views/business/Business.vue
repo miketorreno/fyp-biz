@@ -428,11 +428,11 @@
                     </p>
                     <p class="">
                       <v-icon left>mdi-phone-outline</v-icon>
-                      {{ data.business.telephone_number }} Phone Placeholder
+                      {{ data.business.telephone_number || "N/A" }}
                     </p>
                     <p class="">
                       <v-icon left>mdi-abacus</v-icon>
-                      {{ data.business.email }} Email Placeholder
+                      {{ data.business.email || "N/A" }}
                     </p>
                     <p class="">
                       <v-icon left>mdi-shield-check-outline</v-icon>
